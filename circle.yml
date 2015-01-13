@@ -1,0 +1,57 @@
+machine:
+  environment:
+    htaccess: |
+      RewriteEngine On
+      RewriteCond %{HTTPS} off
+      RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+      
+      # compress text, html, javascript, css, xml:
+      AddOutputFilterByType DEFLATE text/plain
+      AddOutputFilterByType DEFLATE text/html
+      AddOutputFilterByType DEFLATE text/xml
+      AddOutputFilterByType DEFLATE text/css
+      AddOutputFilterByType DEFLATE application/xml
+      AddOutputFilterByType DEFLATE application/xhtml+xml
+      AddOutputFilterByType DEFLATE application/rss+xml
+      AddOutputFilterByType DEFLATE application/javascript
+      AddOutputFilterByType DEFLATE application/x-javascript
+
+dependencies:
+  pre:
+    - curl -L -o google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - sudo dpkg -i google-chrome-stable.deb
+    - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+    - rm google-chrome-stable.deb
+    - curl -L -o chromedriver.zip "https://chromedriver.storage.googleapis.com/2.12/chromedriver_linux64.zip"
+    - unzip -p chromedriver.zip | sudo tee /usr/local/bin/chromedriver >> /dev/null
+    - sudo chmod +x "/usr/local/bin/chromedriver"
+  override:
+    - npm install
+    - bower install
+  post:
+    - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
+    - nohup bash -c "java -jar selenium-server-standalone-2.44.0.jar &"
+test:
+  override:
+    - echo $CHROME_INSTANCES
+    - npm run test
+deployment:
+  staging:
+    branch: /(feature|fix|chore).*/
+    commands:
+      - echo $CI_PULL_REQUEST
+      - NODE_ENV=test npm run build  
+      - >
+        echo "creating .htaccess file";
+        echo "$htaccess" >"dist/.htaccess";
+        lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g') || true; mkdir /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); cd /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); mirror -R; quit"
+  production:
+    branch: master
+    owner: Rise-Vision
+    commands:
+      - NODE_ENV=prod npm run build
+      - >
+        echo "creating .htaccess file";
+        echo "$htaccess" >"dist/.htaccess";
+        echo "deploying to production";
+        lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays || true; mkdir /public_html/displays; cd /public_html/displays; mirror -R; quit"

@@ -105,7 +105,7 @@ gulp.task("css", function () {
 });
 
 gulp.task("fonts", function() {
-  return gulp.src("bower_components/common-style/dist/fonts/**/*")
+  return gulp.src("bower_components/rv-common-style/dist/fonts/**/*")
     .pipe(gulp.dest("dist/fonts"));
 });
 

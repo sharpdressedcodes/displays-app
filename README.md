@@ -27,7 +27,6 @@ Then open [http://localhost:8000](http://localhost:8000)
 ### Dependencies
 - [RV Common Style](https://github.com/Rise-Vision/common-style)
 - [RV Common Header](https://github.com/Rise-Vision/common-header)
-- [RV Subscription Status](github.com/Rise-Vision/component-subscription-status)
 - [AngularJS](https://angularjs.org/) -> [jQuery](http://jquery.com/)
 - [i18next](http://i18next.com/)
 - [angular-bootstrap](http://angular-ui.github.io/bootstrap/)

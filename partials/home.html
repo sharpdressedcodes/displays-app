@@ -1,17 +1,14 @@
-<div class="container">
-  <div class="app-header">
-    <div class="title-block">
-      <!-- App Title -->
-      <h1 translate>Displays</h1>
-    </div>
-
-    <div class="global-actions no-breadcrumb">
-      <button ng-click="newDisplay()"
-        class="btn btn-primary btn-lg pull-right">
-          Add Display
-          <i class="fa fa-white fa-plus icon-right"></i>
-      </button>
-    </div>
+<div class="app-header add-bottom add-top">
+  <div class="title-block">
+    <!-- App Title -->
+    <h1 translate>Displays</h1>
   </div>
-  <displays-list></displays-list>
+
+  <div class="global-actions no-breadcrumb">
+    <a ng-href="#display"
+      class="btn btn-lg btn-primary">
+      <i class="fa fa-plus"></i> 
+      Add Display
+    </a>
+  </div>
 </div>

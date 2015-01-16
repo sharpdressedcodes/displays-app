@@ -36,7 +36,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="clickable-row" ng-repeat="display in displays.list" ui-sref="displaysettings" ng-click="navigate('/displays/{{display.id}}', $event)">
+            <tr class="clickable-row" ng-repeat="display in displays.list" ui-sref="displaysettings" ng-click="navigate('/display/{{display.id}}', $event)">
               <td class="col-sm-9"><strong>{{display.name}}</strong></td>
               <td class="col-sm-1 text-center"><span class="add-left"><i class="fa {{display | status}} fa-circle"></i></span></td>
               <td class="col-sm-2 hidden-xs text-right nowrap">{{display.lastActivityDate | date:'d-MMM-yyyy h:mm a'}}</td>

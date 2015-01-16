@@ -1,0 +1,28 @@
+<div class="input-group">
+  <span class="input-group-addon" ng-click="doSearch()"><i class="fa fa-search"></i></span>
+  <input type="text" class="form-control" placeholder="Search for Displays" ng-model="search.query" ng-enter="doSearch()">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-filter"></i> Filters</button>
+  </span>
+</div>
+
+<div ng-show="isCollapsed" class="content-box content-box-filters">
+  
+  <div id="lookup-filter">
+    
+    <div class="form-group">
+      <label class="control-label">Filter by Lookup Tag</label>
+      <div class="content-box content-box-editable" id="lookup" ng-click="open('','lookupModal')">
+        <span class="edit-icon"><i class="fa fa-lg fa-pencil"></i></span>   
+        <div class="text-muted">Add Lookup Tag</div>
+      </div>
+    </div>
+    
+  </div><!--lookup-filter-->
+  
+  <script type="text/ng-template" id="lookupModal">
+  <div class="modal-header">
+  <h3 class="modal-title">Lookup Tags</h3>
+  </div>
+  <ng-include src="'partials/lookup.html'"></ng-include>
+  </script>

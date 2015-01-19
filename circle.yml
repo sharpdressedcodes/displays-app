@@ -1,21 +1,3 @@
-machine:
-  environment:
-    htaccess: |
-      RewriteEngine On
-      RewriteCond %{HTTPS} off
-      RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-      
-      # compress text, html, javascript, css, xml:
-      AddOutputFilterByType DEFLATE text/plain
-      AddOutputFilterByType DEFLATE text/html
-      AddOutputFilterByType DEFLATE text/xml
-      AddOutputFilterByType DEFLATE text/css
-      AddOutputFilterByType DEFLATE application/xml
-      AddOutputFilterByType DEFLATE application/xhtml+xml
-      AddOutputFilterByType DEFLATE application/rss+xml
-      AddOutputFilterByType DEFLATE application/javascript
-      AddOutputFilterByType DEFLATE application/x-javascript
-
 dependencies:
   pre:
     - curl -L -o google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -41,17 +23,12 @@ deployment:
     commands:
       - echo $CI_PULL_REQUEST
       - NODE_ENV=test npm run build  
-      - >
-        echo "creating .htaccess file";
-        echo "$htaccess" >"dist/.htaccess";
-        lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g') || true; mkdir /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); cd /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); mirror -R; quit"
+      - lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g') || true; mkdir -p /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); cd /public_html/displays-pr/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g'); mirror -R; quit"
   production:
     branch: master
     owner: Rise-Vision
     commands:
       - NODE_ENV=prod npm run build
       - >
-        echo "creating .htaccess file";
-        echo "$htaccess" >"dist/.htaccess";
         echo "deploying to production";
-        lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays || true; mkdir /public_html/displays; cd /public_html/displays; mirror -R; quit"
+        lftp 192.254.220.36 -u $RISE_FTP_USER,$RISE_FTP_PASS -e "set ssl:verify-certificate false; lcd dist; rm -rf /public_html/displays || true; mkdir -p /public_html/displays; cd /public_html/displays; mirror -R; quit"

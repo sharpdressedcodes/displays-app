@@ -10,10 +10,11 @@ angular.module('risevision.displaysApp.services')
       var service = {
         list: function (search, cursor) {
           var deferred = $q.defer();
-          
-          var query = search.query ? 'name: ~\'' + search.query + '\'' : 'companyId: ' +
-          userState.getSelectedCompanyId();
-          
+
+          var query = search.query ? 'name: ~\'' + search.query + '\'' :
+            'companyId: ' +
+            userState.getSelectedCompanyId();
+
           var obj = {
             'companyId': userState.getSelectedCompanyId(),
             'search': query,
@@ -23,17 +24,15 @@ angular.module('risevision.displaysApp.services')
           };
           $log.debug('list displays called with', obj);
           coreAPILoader().then(function (coreApi) {
-            var request = coreApi.display.list(obj);
-            request.execute(function (resp) {
-              $log.debug('list displays resp', resp);
-              if (resp) {
-                deferred.resolve(resp);
-              } else {
-                $log.error('Failed to get list of displays.', resp);
-                deferred.reject(resp);
-              }
+            return coreApi.display.list(obj);
+          })
+            .then(function (resp) {
+              deferred.resolve(resp.result);
+            })
+            .then(null, function (e) {
+              $log.error('Failed to get list of displays.', e);
+              deferred.reject(e);
             });
-          });
 
           return deferred.promise;
         }

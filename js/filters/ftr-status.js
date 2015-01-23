@@ -9,21 +9,17 @@ angular.module('risevision.displaysApp.filters')
       } else {
         if (display.blockExpiryDate) {
           return 'blocked';
-        }
-        else if (display.lastActivityDate) {
+        } else if (display.lastActivityDate) {
           if (display.playerStatus !== 0) {
             return 'error';
-          }
-          else if (display.connected) {
+          } else if (display.connected) {
             return 'online';
-          }	
-          else {
+          } else {
             return 'offline';
           }
-        }
-        else {
+        } else {
           return 'notinstalled';
-        }	
+        }
       }
     };
   });

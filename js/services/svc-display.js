@@ -35,6 +35,29 @@ angular.module('risevision.displaysApp.services')
             });
 
           return deferred.promise;
+        },
+        get: function (displayId) {
+          var deferred = $q.defer();
+
+          var obj = {
+            'id': displayId
+          };
+
+          $log.debug('get display called with', displayId);
+          coreAPILoader().then(function (coreApi) {
+            var request = coreApi.display.get(obj);
+            request.execute(function (resp) {
+              $log.debug('get display resp', resp);
+              if (resp) {
+                deferred.resolve(resp);
+              } else {
+                $log.error('Failed to get display.', resp);
+                deferred.reject(resp);
+              }
+            });
+          });
+
+          return deferred.promise;
         }
       };
 

@@ -49,10 +49,13 @@
     <!-- Common Header -->
     <common-header nav-options="navOptions" nav-selected="navSelected" ng-controller="AppCtrl" hide-shopping-cart="true" hide-help-menu="true"></common-header>
     <!-- Main View -->
-    <div
-      class="displays-app"
-      ng-view
-      off-canvas-content></div>
+    <div class="container">
+      <div
+        class="displays-app"
+        ng-view
+        off-canvas-content>
+      </div>
+    </div>
 
     <!-- dependencies -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -84,9 +87,15 @@
     <script src="js/app.js"></script>
     <script src="js/controllers/ctr-app.js"></script>
     <script src="js/services/svc-display.js"></script>
+    <script src="js/services/svc-time-parser.js"></script>
     <script src="js/filters/ftr-status.js"></script>
+    <script src="js/filters/ftr-resolution.js"></script>
+    <script src="js/directives/dtv-time-picker.js"></script>
     <script src="js/directives/dtv-displays-filter.js"></script>
     <script src="js/directives/dtv-displays-list.js"></script>
+    <script src="js/controllers/ctr-delete-instance.js"></script>
+    <script src="js/controllers/ctr-display-details.js"></script>
+    <script src="js/directives/dtv-display-details.js"></script>
 
     <!-- endbuild -->
 

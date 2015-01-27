@@ -14,22 +14,15 @@ angular.module('risevision.displaysApp.directives')
           $scope.mstep = 15;
           $scope.ismeridian = true;
 
-          // Default time 2:00am
-          var e = new Date();
-          e.setHours(2);
-          e.setMinutes(0);
-
-          $scope.$watch('time', function (newValue, oldValue) {
-            if (newValue && newValue !== oldValue) {
-              ctrl.$setViewValue(timeParser.getTime(newValue));
-            }
-          });
+          $scope.changed = function () {
+            ctrl.$setViewValue($scope.time);
+          };
 
           $scope.$watch(attrs.ngModel, function (newValue, oldValue) {
-            if (newValue && newValue !== oldValue) {
-              $scope.time = timeParser.parseTime(newValue);
+            if (newValue instanceof Date) {
+              $scope.time = newValue;
             } else {
-              $scope.time = e;
+              ctrl.$setViewValue(timeParser(newValue));
             }
           });
 

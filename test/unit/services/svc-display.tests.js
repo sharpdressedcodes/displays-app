@@ -50,6 +50,111 @@ describe('service: display:', function() {
                 def.reject("API Failed");
               }
               return def.promise;
+            },
+            get: function(obj){
+              expect(obj).to.be.ok;
+              
+              var def = Q.defer();
+              if (obj.id) {
+                def.resolve({
+                  result: {
+                    item: {
+                      "id": "display1",
+                      "companyId": "TEST_COMP_ID",
+                      "name": "Test Display",
+                      "creationDate": "2012-04-02T14:19:36.000Z",
+                      "status": 1,
+                      "width": 1124,
+                      "height": 768,
+                      "restartEnabled": true,
+                      "restartTime": "02:45",
+                      "connected": false
+                    }
+                  }
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
+            },
+            add: function(obj) {
+              expect(obj).to.be.ok;
+              expect(obj.companyId).to.equal('TEST_COMP_ID');
+              expect(obj).to.have.property("data");
+              
+              var def = Q.defer();
+              if (obj.data.name) {
+                expect(obj.data).to.have.property("name");
+                expect(obj.data).to.not.have.property("id");
+                
+                obj.data.id = "display1"
+                
+                def.resolve({
+                  item: obj.data
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
+            },
+            patch: function(obj) {
+              expect(obj).to.be.ok;
+              expect(obj.id).to.equal('display1');
+              expect(obj.data).to.be.ok;
+              
+              var def = Q.defer();
+              if (obj.data.name) {
+                expect(obj.data).to.have.property("name");
+                
+                def.resolve({
+                  item: obj.data
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
+            },
+            delete: function(obj) {
+              expect(obj).to.be.ok;
+              expect(obj.id).to.equal('display1');
+              
+              var def = Q.defer();
+              if (obj.id) {
+                def.resolve({
+                  item: {}
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
+            },
+            restart: function(obj) {
+              expect(obj).to.be.ok;
+              expect(obj.id).to.equal('display1');
+              
+              var def = Q.defer();
+              if (obj.id) {
+                def.resolve({
+                  item: {}
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
+            },
+            reboot: function(obj) {
+              expect(obj).to.be.ok;
+              expect(obj.id).to.equal('display1');
+              
+              var def = Q.defer();
+              if (obj.id) {
+                def.resolve({
+                  item: {}
+                });
+              } else {
+                def.reject("API Failed");
+              }
+              return def.promise;
             }
           }
         });
@@ -60,8 +165,9 @@ describe('service: display:', function() {
   }));
   var display, returnList;
   beforeEach(function(){
-    inject(function($injector){
-      returnList = true;
+    returnList = true;
+    
+    inject(function($injector){  
       display = $injector.get('display');
     });
   });
@@ -69,6 +175,12 @@ describe('service: display:', function() {
   it('should exist',function(){
     expect(display).to.be.truely;
     expect(display.list).to.be.a('function');
+    expect(display.get).to.be.a('function');
+    expect(display.add).to.be.a('function');
+    expect(display.update).to.be.a('function');
+    expect(display.delete).to.be.a('function');
+    expect(display.restart).to.be.a('function');
+    expect(display.reboot).to.be.a('function');
   });
   
   describe('list:',function(){
@@ -97,5 +209,149 @@ describe('service: display:', function() {
       .then(null,done);
     });
   });
+  
+  describe('get:',function(){
+    it('should return a display',function(done){
+      display.get('display1')
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("name");
+        
+        done();
+      })
+      .then(null,done);
+    });
+    
+    it("should handle failure to get display correctly",function(done){
+      display.get()
+      .then(function(result) {
+        done(result);
+      })
+      .then(null, function(error) {
+        expect(error).to.deep.equal('API Failed');
+        done();
+      })
+      .then(null,done);
+    });
+  });
+  
+  describe('add:',function(){
+    var displayObject = {
+      "name": "Test Display",
+      "status": 1,
+      "width": 1124,
+      "height": 768,
+      "restartEnabled": true,
+      "restartTime": "02:45",
+    };
+    
+    it('should add a display',function(done){
+      display.add(displayObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.have.property("name");
+        expect(result.item).to.have.property("id");
+        expect(result.item.id).to.equal("display1");
+        
+        done();
+      })
+      .then(null,done);
+    });
+    
+    it("should handle failure to add display",function(done){
+      display.add({})
+      .then(function(result) {
+        done(result);
+      })
+      .then(null, function(error) {
+        expect(error).to.deep.equal('API Failed');
+        done();
+      })
+      .then(null,done);
+    });
+  });
+  
+  describe('update:',function(){
+    var displayObject = {
+      "name": "Test Display",
+      "id": "display1",
+      "companyId": "TEST_COMP_ID",
+      "status": 1,
+      "width": 1124,
+      "height": 768,
+      "restartEnabled": true,
+      "restartTime": "02:45",
+    };
+    
+    it('should update a display',function(done){
+      display.update(displayObject.id, displayObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        
+        done();
+      })
+      .then(null,done);
+    });
+    
+    it('should remove extra properties',function(done){
+      display.update(displayObject.id, displayObject)
+      .then(function(result){
+        expect(result).to.be.truely;
+        expect(result.item).to.be.truely;
+        expect(result.item).to.not.have.property("connected");
+        
+        done();
+      })
+      .then(null,done);
+    });
+    
+    it("should handle failure to update display",function(done){
+      display.update(displayObject.id, {})
+      .then(function(result) {
+        done(result);
+      })
+      .then(null, function(error) {
+        expect(error).to.deep.equal('API Failed');
+        done();
+      })
+      .then(null,done);
+    });
+  });
+  
+  it('should delete a display',function(done){
+    display.delete('display1')
+    .then(function(result){
+      expect(result).to.be.truely;
+      expect(result.item).to.be.truely;
+      
+      done();
+    })
+    .then(null,done);
+  });
 
+  it('should restart a display',function(done){
+    display.restart('display1')
+    .then(function(result){
+      expect(result).to.be.truely;
+      expect(result.item).to.be.truely;
+      
+      done();
+    })
+    .then(null,done);
+  });
+  
+  it('should reboot a display',function(done){
+    display.reboot('display1')
+    .then(function(result){
+      expect(result).to.be.truely;
+      expect(result.item).to.be.truely;
+      
+      done();
+    })
+    .then(null,done);
+  });
+  
 });

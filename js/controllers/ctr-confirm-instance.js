@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('risevision.displaysApp.controllers')
-  .controller('deleteInstance', ['$scope', '$modalInstance',
-    'confirmationMessage',
-    function ($scope, $modalInstance, confirmationMessage) {
+  .controller('confirmInstance', ['$scope', '$modalInstance',
+    'confirmationMessage', 'confirmationButton',
+    function ($scope, $modalInstance, confirmationMessage,
+      confirmationButton) {
       $scope.confirmationMessage = confirmationMessage;
+      $scope.confirmationButton = confirmationButton;
 
       $scope.ok = function () {
         $modalInstance.close();

@@ -8,6 +8,7 @@ describe('controller: display controls', function() {
     $provide.service('display',function(){
       return {
         restart: function(displayId) {
+          functionCalled = 'restart';
           var deferred = Q.defer();
           if(updateDisplay){
             deferred.resolve(displayId);
@@ -17,6 +18,7 @@ describe('controller: display controls', function() {
           return deferred.promise;
         },
         reboot: function(displayId) {
+          functionCalled = 'reboot';
           var deferred = Q.defer();
           if(updateDisplay){
             deferred.resolve(displayId);
@@ -45,9 +47,11 @@ describe('controller: display controls', function() {
       }
     });
   }));
-  var $scope, userState, $location, updateDisplay, confirmResponse;
+  var $scope, userState, $location, updateDisplay, confirmResponse, functionCalled;
   beforeEach(function(){
     updateDisplay = true;
+    confirmResponse = false;
+    functionCalled = undefined;
     
     userState = function(){
       return {
@@ -78,23 +82,23 @@ describe('controller: display controls', function() {
   it('should exist',function(){
     expect($scope).to.be.truely;
 
-    expect($scope.restart).to.be.a('function');
-    expect($scope.reboot).to.be.a('function');
+    expect($scope.confirm).to.be.a('function');
   });
 
   describe('restart: ',function(){
-    xit('should return early the user does not confirm',function(){
-      $scope.restart('1234');
+    it('should return early the user does not confirm',function(){
+      $scope.confirm('1234', 'restart');
       
-      expect($scope.controlsInfo).to.be.false;
+      expect(functionCalled).to.not.be.ok;
     });
     
     it('should restart the display',function(done){
       confirmResponse = true;
       updateDisplay = true;
       
-      $scope.restart('1234');
+      $scope.confirm('1234', 'restart');
       setTimeout(function(){
+        expect(functionCalled).to.equal('restart');
         expect($scope.controlsInfo).to.be.ok;
         expect($scope.controlsError).to.not.be.ok;
         done();
@@ -105,8 +109,9 @@ describe('controller: display controls', function() {
       confirmResponse = true;
       updateDisplay = false;
       
-      $scope.restart('1234');
+      $scope.confirm('1234', 'restart');
       setTimeout(function(){
+        expect(functionCalled).to.equal('restart');
         expect($scope.controlsInfo).to.not.be.ok;
         expect($scope.controlsError).to.be.ok;
         done();
@@ -115,30 +120,32 @@ describe('controller: display controls', function() {
   });
   
   describe('reboot: ',function(){
-    xit('should return early the user does not confirm',function(){
-      $scope.restart('1234');
+    it('should return early the user does not confirm',function(){
+      $scope.confirm('1234', 'reboot');
       
-      expect($scope.controlsInfo).to.be.false;
+      expect(functionCalled).to.not.be.ok;
     });
     
-    it('should restart the display',function(done){
+    it('should reboot the display',function(done){
       confirmResponse = true;
       updateDisplay = true;
       
-      $scope.restart('1234');
+      $scope.confirm('1234', 'reboot');
       setTimeout(function(){
+        expect(functionCalled).to.equal('reboot');
         expect($scope.controlsInfo).to.be.ok;
         expect($scope.controlsError).to.not.be.ok;
         done();
       },10);
     });
     
-    it('should show an error if fails to restart the display',function(done){
+    it('should show an error if fails to reboot the display',function(done){
       confirmResponse = true;
       updateDisplay = false;
       
-      $scope.restart('1234');
+      $scope.confirm('1234', 'reboot');
       setTimeout(function(){
+        expect(functionCalled).to.equal('reboot');
         expect($scope.controlsInfo).to.not.be.ok;
         expect($scope.controlsError).to.be.ok;
         done();

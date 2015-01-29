@@ -120,11 +120,11 @@
       <i class="fa fa-download"></i> 
       Download Player
     </a>
-    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="restart(displayId)">
+    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="confirm(displayId, 'restart')">
       <i class="fa fa-refresh"></i> 
       Restart Player
     </button>
-    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="reboot(displayId)">
+    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="confirm(displayId, 'reboot')">
       <i class="fa fa-power-off"></i> 
       Reboot Player
     </button>
@@ -134,11 +134,11 @@
       <i class="fa fa-download"></i> 
       Download Player
     </a>
-    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="restart(displayId)">
+    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="confirm(displayId, 'restart')">
       <i class="fa fa-refresh"></i> 
       Restart Player
     </button>
-    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="reboot(displayId)">
+    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="confirm(displayId, 'reboot')">
       <i class="fa fa-power-off"></i> 
       Reboot Player
     </button>

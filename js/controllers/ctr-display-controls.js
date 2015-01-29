@@ -15,7 +15,7 @@ angular.module('risevision.displaysApp.controllers')
 
         display.restart(displayId)
           .then(function (resp) {
-            $scope.controlsInfo = 'Reboot signal sent';
+            $scope.controlsInfo = 'displays-app.fields.controls.restart.success';
           })
           .then(null, function (e) {
             $scope.controlsError = e.message ? e.message : e.toString();
@@ -32,7 +32,7 @@ angular.module('risevision.displaysApp.controllers')
 
         display.reboot(displayId)
           .then(function (resp) {
-            $scope.controlsInfo = 'Reboot signal sent';
+            $scope.controlsInfo = 'displays-app.fields.controls.reboot.success';
           })
           .then(null, function (e) {
             $scope.controlsError = e.message ? e.message : e.toString();
@@ -46,12 +46,10 @@ angular.module('risevision.displaysApp.controllers')
           windowClass: 'modal-custom',
           resolve: {
             confirmationMessage: function () {
-              return 'The Rise Player on the Display\'s Computer will ' +
-                mode +
-                ' and the currently Scheduled Content will be interrupted. Do you wish to proceed?';
+              return 'displays-app.fields.controls.' + mode + '.warning';
             },
             confirmationButton: function () {
-              return 'common.okay';
+              return 'common.ok';
             }
           }
         });

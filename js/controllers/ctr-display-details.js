@@ -64,7 +64,7 @@ angular.module('risevision.displaysApp.controllers')
           windowClass: 'modal-custom',
           resolve: {
             confirmationMessage: function () {
-              return 'Are you sure you want to delete this Display?';
+              return 'displays-app.details.deleteWarning';
             },
             confirmationButton: function () {
               return 'common.delete-forever';

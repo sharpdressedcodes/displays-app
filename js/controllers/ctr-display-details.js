@@ -59,12 +59,15 @@ angular.module('risevision.displaysApp.controllers')
 
       $scope.confirmDelete = function () {
         $scope.modalInstance = $modal.open({
-          templateUrl: 'partials/delete-modal.html',
-          controller: 'deleteInstance',
+          templateUrl: 'partials/confirm-modal.html',
+          controller: 'confirmInstance',
           windowClass: 'modal-custom',
           resolve: {
             confirmationMessage: function () {
               return 'Are you sure you want to delete this Display?';
+            },
+            confirmationButton: function () {
+              return 'common.delete-forever';
             }
           }
         });

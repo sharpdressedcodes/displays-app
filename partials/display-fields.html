@@ -1,0 +1,203 @@
+<div class="row" ng-if="displayId">
+  <div class="col-sm-4">
+    <div class="form-group form-inline">
+      <label class="control-label">Display ID:</label>
+      <div class="form-control-static">{{display.id}}</div>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="form-group" id="display-status">
+      <label class="control-label">Status</label>
+      <select class="form-control" ng-model="display.status">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+      <i class="fa {{display | status}} fa-circle"></i>
+      <div class="form-control-static nowrap">{{display.lastActivityDate | date:'d-MMM-yyyy h:mm a'}}</div>
+    </div><!--status--> 
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="control-label">Name *</label>
+  <input type="text" class="form-control" placeholder="Display Name" id="name" name="name" ng-model="display.name" required>
+  <p class="text-danger" ng-show="displayDetails.name.$touched && displayDetails.name.$error.required" translate>
+    displays-app.display.name.required
+  </p>
+</div>
+
+<div class="form-group reboot-time">
+  <div class="checkbox">
+    <label class="control-label"><input type="checkbox" ng-model="display.restartEnabled"> <strong>Reboot:</strong></label> 
+  </div>
+  <time-picker ng-model="display.restartTime" ng-disabled="display.restartEnabled"></time-picker>
+  <div class="checkbox">
+    <label class="control-label"><input type="checkbox" ng-model="display.monitoringEnabled"> <strong>Monitor</strong></label> 
+  </div>
+</div>
+
+<label class="control-label half-top" for="address">
+  <input type="checkbox" ng-model="display.useCompanyAddress" name="address"> <strong>Use Company Address</strong>
+</label>
+
+<div ng-hide="display.useCompanyAddress" class="add-top">
+  <div class="form-group">
+    <label class="control-label">Description</label>
+    <input type="text" class="form-control" ng-model="display.addressDescription">
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Street</label>
+        <input type="text" class="form-control" ng-model="display.street">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label">Unit</label>
+        <input type="text" class="form-control" ng-model="display.unit">
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">City</label>
+        <input type="text" class="form-control" ng-model="display.city">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Country</label>
+        <select class="form-control" ng-model="display.country" ng-options="c[1] as c[0] for c in countries">
+          <option value="">&lt; Select Country &gt;</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">State/Province/Region</label>
+        <input type="text" class="form-control" ng-model="display.province" ng-hide="display.country == 'US' || display.country == 'CA'" />
+        <select class="form-control selectpicker" ng-model="display.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="display.country == 'CA'">
+          <option value="">&lt; Select Province &gt;</option>
+        </select>
+        <select class="form-control selectpicker" ng-model="display.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="display.country == 'US'">
+          <option value="">&lt; Select State &gt;</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="control-label">Zip / Postal Code</label>
+        <input type="text" class="form-control" ng-model="display.postalCode">
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label">Time Zone</label>
+    <select class="form-control" ng-model="display.timeZoneOffset" ng-options="c[1] as c[0] for c in timezones">
+      <option value="">&lt; Select Time Zone &gt;</option>
+    </select>
+  </div>
+</div><!--display address-->
+
+<div class="add-top" ng-controller="AppCtrl">
+  <label class="control-label">Lookup Tags</label>
+  <div class="content-box content-box-editable add-bottom" ng-click="open('','lookupModal')">
+    <span class="edit-icon"><i class="fa fa-lg fa-pencil"></i></span>
+    <div class="label label-tag" ng-repeat="item in checked">
+      {{item.category}}: <span class="tag-value">{{item.value}}</span>
+    </div>   
+  </div>
+</div>
+
+<div class="form-group" ng-show="displayId" ng-controller="displayControls">
+  <div class="add-bottom hidden-xs">
+    <a ng-href="http://www.risevision.com/player/" target="_blank" class="btn btn-default">
+      <i class="fa fa-download"></i> 
+      Download Player
+    </a>
+    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="restart(displayId)">
+      <i class="fa fa-refresh"></i> 
+      Restart Player
+    </button>
+    <button type="button" class="btn btn-default" ng-disabled="!display.playerVersion" ng-click="reboot(displayId)">
+      <i class="fa fa-power-off"></i> 
+      Reboot Player
+    </button>
+  </div>
+  <div class="add-bottom visible-xs">
+    <a ng-href="http://www.risevision.com/player/" target="_blank" class="btn btn-default btn-block half-bottom">
+      <i class="fa fa-download"></i> 
+      Download Player
+    </a>
+    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="restart(displayId)">
+      <i class="fa fa-refresh"></i> 
+      Restart Player
+    </button>
+    <button type="button" class="btn btn-default btn-block half-bottom" ng-disabled="!display.playerVersion" ng-click="reboot(displayId)">
+      <i class="fa fa-power-off"></i> 
+      Reboot Player
+    </button>
+  </div>
+  <div ng-show="controlsError" class="alert alert-danger" role="alert">
+    <strong translate>displays-app.display.error </strong>{{controlsError}}
+  </div> 
+  <div ng-show="controlsInfo" class="alert alert-info" role="alert">
+    <strong>{{controlsInfo}}</strong>
+  </div> 
+</div>
+
+<div class="add-bottom" ng-show="displayId && !display.playerVersion">
+  <p class="add-right"><i class="fa fa-warning"></i> No Player software is installed on the Display</p>
+</div>
+
+<div ng-show="displayId">
+  <div class="form-group form-inline">
+    <label class="control-label">Resolution:</label>
+    <div class="form-control-static">{{display.width | resolution: display.height}}</div>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">IP Address:</label>
+    <div class="form-control-static">192.168.0.1</div>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">Operating System:</label>
+    <div class="form-control-static">N/A</div>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">Player Version:</label>
+    <div class="form-control-static">N/A</div>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">Viewer Version:</label>
+    <div class="form-control-static">1-06-035</div>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">Player Upgrade:</label>
+    <select class="form-control">
+      <option>Auto Upgrade</option>
+    </select>
+  </div>
+  
+  <div class="form-group form-inline">
+    <label class="control-label">Installed Browser:</label>
+    <div class="form-control-static">N/A</div>
+  </div>      
+</div>  
+
+
+<script type="text/ng-template" id="lookupModal">
+  <div class="modal-header">
+    <h3 class="modal-title">Lookup Tags</h3>
+  </div>
+  <ng-include src="'partials/lookup.html'"></ng-include>
+</script>

@@ -5,18 +5,14 @@
 <div class="display-settings">
   <form role="form" name="displayDetails" class="displayDetails">
     
-    <display-fields display-id="displayId" display="display"></display-fields>
-
+    <display-fields display="display"></display-fields>
+    
     <div ng-show="submitError" class="alert alert-danger" role="alert">
       <strong translate>displays-app.display.error </strong>{{submitError}}
     </div> 
-    
-    <div class="add-top add-bottom">
-      <!-- Indicates delete or destructive action -->
-      <button type="button" class="btn btn-danger btn-fixed-width" ng-click="confirmDelete()" ng-if="displayId">
-        {{'common.delete' | translate}} <i class="fa fa-white fa-trash-o icon-right"></i>
-      </button>
-      <div class="pull-right">
+
+    <div class="pull-right">      
+      <div class="add-top add-bottom">
         <!-- Indicates a successful or positive action -->
         <button type="submit" class="btn btn-primary btn-fixed-width" ng-click="save()" ng-disabled="displayDetails.$invalid || savingDisplay">
           {{ savingDisplay ? ('common.saving' | translate) : ('common.save' | translate)}} 

@@ -19,20 +19,20 @@ angular.module('risevision.displaysApp', [
     function ($routeProvider) {
       $routeProvider
         .when('/', {
-          templateUrl: 'partials/displays.html',
-          controller: 'AppCtrl'
+          templateUrl: 'partials/displays-list.html',
+          controller: 'displaysList'
         })
         .when('/on-boarding', {
           templateUrl: 'partials/on-boarding.html',
           controller: 'AppCtrl'
         })
         .when('/display', {
-          templateUrl: 'partials/display.html',
-          controller: 'displayDetailsCtrl'
+          templateUrl: 'partials/display-add.html',
+          controller: 'displayAdd'
         })
         .when('/display/:displayId', {
-          templateUrl: 'partials/display.html',
-          controller: 'displayDetailsCtrl'
+          templateUrl: 'partials/display-details.html',
+          controller: 'displayDetails'
         })
         .otherwise({
           redirectTo: '/'

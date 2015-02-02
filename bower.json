@@ -12,7 +12,7 @@
     "www"
   ],
   "dependencies": {
-    "rv-common-style": "https://github.com/Rise-Vision/common-style.git#feature/tagging",
+    "rv-common-style": "https://github.com/Rise-Vision/common-style.git",
     "common-header": "https://github.com/Rise-Vision/common-header.git#master",
     "angular-bootstrap": "~0.11.0",
     "angular-ui-select2": "~0.0.5",
@@ -38,7 +38,6 @@
     "angular-sanitize": "1.2.24",
     "angular-touch": "~1.3.0",
     "angular-translate": "~2.4.2",
-    "angular-translate-loader-static-files": "~2.4.2",
-    "rv-common-style": "feature/tagging"
+    "angular-translate-loader-static-files": "~2.4.2"
   }
 }

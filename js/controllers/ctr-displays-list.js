@@ -11,7 +11,8 @@ angular.module('risevision.displaysApp.controllers')
       $scope.search = angular.extend({
         sortBy: 'name',
         count: DB_MAX_COUNT,
-        reverse: false
+        reverse: false,
+        tags: []
       }, $location.search());
 
       $scope.$watch('loadingDisplays', function (loading) {

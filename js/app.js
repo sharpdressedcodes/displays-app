@@ -75,7 +75,10 @@ angular.module('risevision.displaysApp', [
 angular.module('risevision.displaysApp.services', [
   'risevision.common.header',
   'risevision.common.gapi'
-]);
+])
+// .value("CORE_URL", "https://rvacore-test.appspot.com/_ah/api") // override default core value
+// .value("STORAGE_API_ROOT", "https://storage-dot-rvacore-test.appspot.com/_ah/api");
+.value("STORAGE_API_ROOT", "https://storage-dot-rvaserver2.appspot.com/_ah/api");
 
 angular.module('risevision.displaysApp.filters', []);
 angular.module('risevision.displaysApp.directives', [

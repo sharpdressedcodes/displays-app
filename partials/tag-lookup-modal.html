@@ -1,10 +1,11 @@
 <div>
   
   <div class="modal-body">
+    <div rv-spinner rv-spinner-key="tag-loader" rv-spinner-start-active="0"></div>
     
     <div class="content-box content-box-editable">
-      <div class="label label-tag" ng-repeat="item in checked" ng-click="removeChecked($index)">      
-        {{item.category}}: <span class="tag-value">{{item.value}}</span>
+      <div class="label label-tag" ng-repeat="tag in selectedTags" ng-click="removeTag($index)">      
+        {{tag.name}}: <span class="tag-value">{{tag.value}}</span>
         <span><i class="fa fa-minus-circle"></i></span>
       </div>       
     </div>
@@ -15,8 +16,8 @@
         <input type="text" class="form-control" placeholder="Search Lookup Tags" ng-model="query">
       </div>
       
-      <div class="label label-tag" ng-repeat="item in items | filter:query" ng-click="toggleChecked($index)">
-        {{item.category}}: <span class="tag-value">{{item.value}}</span>
+      <div class="label label-tag" ng-repeat="tag in availableTags | tagSelection:selectedTags | filter:query" ng-click="selectTag(tag)">
+        {{tag.name}}: <span class="tag-value">{{tag.value}}</span>
         <span><i class="fa fa-plus-circle"></i></span>
       </div>    
     </div>
@@ -24,7 +25,7 @@
   </div><!-- modal-body -->  
   
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary btn-fixed-width"  ng-click="cancel()">Apply <i class="fa fa-white fa-check icon-right"></i></button>
+    <button type="button" class="btn btn-primary btn-fixed-width"  ng-click="apply()">Apply <i class="fa fa-white fa-check icon-right"></i></button>
     <button type="button" class="btn btn-default btn-fixed-width" ng-click="cancel()">Cancel <i class="fa fa-times icon-right"></i></button>
   </div>
   

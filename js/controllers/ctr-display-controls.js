@@ -15,7 +15,8 @@ angular.module('risevision.displaysApp.controllers')
 
         display.restart(displayId)
           .then(function (resp) {
-            $scope.controlsInfo = 'displays-app.fields.controls.restart.success';
+            $scope.controlsInfo =
+              'displays-app.fields.controls.restart.success';
           })
           .then(null, function (e) {
             $scope.controlsError = e.message ? e.message : e.toString();
@@ -32,7 +33,8 @@ angular.module('risevision.displaysApp.controllers')
 
         display.reboot(displayId)
           .then(function (resp) {
-            $scope.controlsInfo = 'displays-app.fields.controls.reboot.success';
+            $scope.controlsInfo =
+              'displays-app.fields.controls.reboot.success';
           })
           .then(null, function (e) {
             $scope.controlsError = e.message ? e.message : e.toString();

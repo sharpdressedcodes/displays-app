@@ -104,15 +104,11 @@
   </div>
 </div><!--display address-->
 
-<div class="add-top" ng-controller="AppCtrl">
+<div class="add-top">
   <label class="control-label">Lookup Tags</label>
-  <div class="content-box content-box-editable add-bottom" ng-click="open('','lookupModal')">
-    <span class="edit-icon"><i class="fa fa-lg fa-pencil"></i></span>
-    <div class="label label-tag" ng-repeat="item in checked">
-      {{item.category}}: <span class="tag-value">{{item.value}}</span>
-    </div>   
-  </div>
+  <tag-textbox tags="display.tags"></tag-textbox>
 </div>
+
 
 <div class="form-group" ng-show="displayId" ng-controller="displayControls">
   <div class="add-bottom hidden-xs">

@@ -35,13 +35,13 @@ describe('controller: displays list', function() {
   }));
   var $scope, userState, $location, returnDisplays, companyId, apiCount, scrollEvent, result;
   beforeEach(function(){
+    companyId = null;
     scrollEvent = {target: {scrollHeight: 0, clientHeight: 0, scrollTop: 0}};
     result = {
       items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       cursor: 'asdf'
     };
     apiCount = 0;
-    companyId = 'some_company_id';
     returnDisplays = true;
     userState = function(){
       return {
@@ -91,36 +91,19 @@ describe('controller: displays list', function() {
     expect($scope.search).to.have.property('reverse');
   });
   
-  beforeEach(function(done) {
-    setTimeout(function(){
-      expect($scope.loadingDisplays).to.be.false;
-      expect(apiCount).to.equal(1);
-      expect($scope.error).to.not.be.ok;
-      
-      done();
-    },10);
-  });
-  
-  it('should load the list',function(){
-    expect($scope.loadingDisplays).to.be.false;
-    expect($scope.displays).to.be.truely;
-    expect($scope.displays.list).to.have.length(20);
-    expect($scope.displays.cursor).to.be.truely;
-    expect($scope.displays.endOfList).to.be.false;
-
-  });
-  
-  describe('switch company: ',function(){
-    it('should reset list and re-load the list w/ new company id',function(done){
-      companyId = 'new_company_id';
+  describe('displays list: ',function(){
+    it('should load list',function(done){
+      companyId = 'some_company_id';
       $scope.$digest();
 
       expect($scope.loadingDisplays).to.be.true;
       setTimeout(function(){
         expect($scope.loadingDisplays).to.be.false;
-        expect($scope.error).to.not.be.ok;
-        expect(apiCount).to.equal(2);
+        expect(apiCount).to.equal(1);
+        expect($scope.displays).to.be.truely;
         expect($scope.displays.list).to.have.length(20);
+        expect($scope.displays.cursor).to.be.truely;
+        expect($scope.displays.endOfList).to.be.false;
         
         done();
       },10);
@@ -128,14 +111,14 @@ describe('controller: displays list', function() {
         
     it('should set error if list fails to load',function(done){
       returnDisplays = false;
-      companyId = 'new_company_id';
+      companyId = 'some_company_id';
       $scope.$digest();
       
       expect($scope.loadingDisplays).to.be.true;
       setTimeout(function(){
         expect($scope.loadingDisplays).to.be.false;
         expect($scope.error).to.be.ok;
-        expect(apiCount).to.equal(2);
+        expect(apiCount).to.equal(1);
         expect($scope.displays.list).to.have.length(0);
         
         done();
@@ -144,7 +127,18 @@ describe('controller: displays list', function() {
   });
   
   describe('list functions: ',function(){
-    returnDisplays = true;
+    beforeEach(function(done) {
+      companyId = 'some_company_id';
+      $scope.$digest();
+      
+      setTimeout(function(){
+        expect($scope.loadingDisplays).to.be.false;
+        expect(apiCount).to.equal(1);
+        expect($scope.error).to.not.be.ok;
+        
+        done();
+      },10);
+    });
     
     describe('handleScroll: ',function(){
       it('should re-load if there are more items',function(done){

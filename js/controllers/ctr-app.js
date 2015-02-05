@@ -8,12 +8,8 @@ angular.module('risevision.displaysApp.controllers')
         link: '#/',
         states: ['root.common.displays']
       }, {
-        title: 'RVA',
-        link: 'http://rva.risevision.com',
-        target: '_blank'
-      }, {
-        title: 'Community',
-        link: 'http://community.risevision.com',
+        title: 'Help',
+        link: 'http://help.risevision.com/#/user/display/what-is-a-display',
         target: '_blank'
       }];
       $scope.navSelected = 'root.common.displays';

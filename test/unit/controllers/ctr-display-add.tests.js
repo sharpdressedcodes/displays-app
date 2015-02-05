@@ -76,6 +76,7 @@ describe('controller: display add', function() {
       'status': 1,
       'restartEnabled': true,
       'restartTime': '02:00',
+      'monitoringEnabled': true,
       'useCompanyAddress': true
     });
   });

@@ -36,9 +36,11 @@
   </div>
 </div>
 
+<div class="checkbox">
 <label class="control-label half-top" for="address">
   <input type="checkbox" ng-model="display.useCompanyAddress" name="address"> <strong translate>displays-app.fields.address.useCompany</strong>
 </label>
+</div>
 
 <div ng-hide="display.useCompanyAddress" class="add-top">
   <div class="form-group">
@@ -106,10 +108,10 @@
 
 <div class="add-top" ng-controller="AppCtrl">
   <label class="control-label">Lookup Tags</label>
-  <div class="content-box content-box-editable add-bottom" ng-click="open('','lookupModal')">
+  <div class="content-box-editable content-box clickable add-bottom" ng-click="open('','lookupModal')">
     <span class="edit-icon"><i class="fa fa-lg fa-pencil"></i></span>
     <div class="label label-tag" ng-repeat="item in checked">
-      {{item.category}}: <span class="tag-value">{{item.value}}</span>
+      <span class="tag-name">{{item.category}}</span> <span class="tag-value">{{item.value}}</span>
     </div>   
   </div>
 </div>

@@ -12,11 +12,13 @@
     </div> 
     
     <div class="add-top add-bottom">
+      <p class="visible-xs text-right"><last-modified change-date="display.changeDate" changed-by="display.changedBy"></last-modified></p>
       <!-- Indicates delete or destructive action -->
       <button type="button" class="btn btn-danger btn-fixed-width" ng-click="confirmDelete()" ng-if="displayId">
         {{'common.delete' | translate}} <i class="fa fa-white fa-trash-o icon-right"></i>
       </button>
       <div class="pull-right">
+      <span class="hidden-xs"><last-modified change-date="display.changeDate" changed-by="display.changedBy"></last-modified></span>
         <!-- Indicates a successful or positive action -->
         <button type="submit" class="btn btn-primary btn-fixed-width" ng-click="save()" ng-disabled="displayDetails.$invalid || savingDisplay">
           {{ savingDisplay ? ('common.saving' | translate) : ('common.save' | translate)}} 

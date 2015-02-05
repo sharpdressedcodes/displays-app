@@ -11,6 +11,7 @@ angular.module('risevision.displaysApp.controllers')
         'status': 1,
         'restartEnabled': true,
         'restartTime': '02:00',
+        'monitoringEnabled': true,
         'useCompanyAddress': true
       };
       $scope.savingDisplay = false;
